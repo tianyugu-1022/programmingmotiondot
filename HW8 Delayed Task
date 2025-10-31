@@ -1,0 +1,27 @@
+# Assignment 8: Here calculate the average earnings per person and the number of times they chose delayed vs sooner
+
+# if choice is left, use money_left
+data.loc[data['choice'] == 1, 'earnings'] = data.loc[data['choice'] == 1, 'money_left']
+
+# if choice is right, use money_right
+data.loc[data['choice'] == 2, 'earnings'] = data.loc[data['choice'] == 2, 'money_right']
+
+# now loop
+for participant in range(1, 3):
+
+  # get this participant's data
+  person_data = data[data['participant'] == participant]
+
+  # drop missing earnings
+  valid_earnings = person_data['earnings'].dropna()
+
+  # calculate average earnings
+  average_earnings = valid_earnings.mean()
+
+  # count delayed vs sooner
+  delayed_chose = (person_data['delayed_opt_chose'] == 1).sum()
+  sooner_chose  = (person_data['delayed_opt_chose'] == 0).sum()
+
+  print(f"Participant {participant}'s average earnings: {average_earnings:.2f}")
+  print(f"  chose delayed: {delayed_chose} times")
+  print(f"  chose sooner : {sooner_chose} times")
